@@ -5,6 +5,7 @@ const {RtmClient, WebClient, MemoryDataStore, RTM_EVENTS, CLIENT_EVENTS} = requi
 const promisify = require('lagden-promisify')
 const debug = require('./lib/debug')
 const {read} = require('./lib/helpers')
+const server = require('./lib/server')
 
 const token = require(`./config/token.${process.env.NODE_ENV || 'dev'}.json`)
 
@@ -78,3 +79,4 @@ rtm.on(CLIENT_EVENTS.RTM.ATTEMPTING_RECONNECT, clear)
 rtm.on(CLIENT_EVENTS.RTM.DISCONNECT, clear)
 
 rtm.start()
+server.listen(process.env.PORT || 5000)
