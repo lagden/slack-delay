@@ -76,6 +76,9 @@ rtm.on(RTM_EVENTS.MESSAGE, message => {
 	debug.log(message.channel, origem, message.type)
 	if (message.channel === origem && message.type === 'message') {
 		const ws = fs.createWriteStream(`./data/${Date.now()}.json`, {mode: 0o644})
+		ws.on('error', err => {
+			debug.error(err.message)
+		})
 		ws.write(JSON.stringify(message))
 		ws.end()
 	}
