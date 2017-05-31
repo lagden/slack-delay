@@ -3,6 +3,7 @@
 const fs = require('fs')
 const {RtmClient, WebClient, MemoryDataStore, RTM_EVENTS, CLIENT_EVENTS} = require('@slack/client')
 const promisify = require('lagden-promisify')
+const got = require('got')
 const debug = require('./lib/debug')
 const {read} = require('./lib/helpers')
 const server = require('./lib/server')
@@ -79,4 +80,15 @@ rtm.on(CLIENT_EVENTS.RTM.ATTEMPTING_RECONNECT, clear)
 rtm.on(CLIENT_EVENTS.RTM.DISCONNECT, clear)
 
 rtm.start()
-server.listen(process.env.PORT || 5000)
+server.listen(process.env.PORT || 5000, () => {
+	// Avoid Idling
+	setInterval(() => {
+		got('https://delay-bot.herokuapp.com/')
+			.then(response => {
+				debug.log(response.body)
+			})
+			.catch(err => {
+				debug.error(err.response.body)
+			})
+	}, 60 * 1000)
+})
