@@ -1,6 +1,7 @@
 'use strict'
 
 const fs = require('fs')
+const {join} = require('path')
 const {RtmClient, WebClient, MemoryDataStore, RTM_EVENTS, CLIENT_EVENTS} = require('@slack/client')
 const promisify = require('lagden-promisify')
 const got = require('got')
@@ -75,12 +76,14 @@ function loop() {
 rtm.on(RTM_EVENTS.MESSAGE, message => {
 	debug.log(message.channel, origem, message.type)
 	if (message.channel === origem && message.type === 'message') {
-		const ws = fs.createWriteStream(`./data/${Date.now()}.json`, {mode: 0o644})
+		const ws = fs.createWriteStream(join(__dirname, 'data', `${Date.now()}.json`), {mode: 0o644})
 		ws.on('error', err => {
 			debug.error(err.message)
 		})
-		ws.write(JSON.stringify(message))
-		ws.end()
+		ws.on('finish', () => {
+			debug.log('ws ---> All writes are now complete.')
+		})
+		ws.end(JSON.stringify(message))
 	}
 })
 
