@@ -59,7 +59,9 @@ function loop() {
 		read(DELAY)
 			.then(files => Promise.all(files.map(triggerMsg)))
 			.then(r => {
-				debug.log(r)
+				if (r.length > 0) {
+					debug.log(r)
+				}
 			})
 			.catch(err => {
 				debug.error(err.message)
