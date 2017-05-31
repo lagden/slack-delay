@@ -66,12 +66,11 @@ function loop() {
 	intervalID = setInterval(() => {
 		read(DELAY)
 			.then(files => {
-				debug.log('files to trigger --->', files)
 				return Promise.all(files.map(triggerMsg))
 			})
 			.then(r => {
 				if (r.length > 0) {
-					debug.log(r)
+					debug.log('disparados', r)
 				}
 			})
 			.catch(err => {
