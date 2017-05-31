@@ -1,6 +1,7 @@
 {
   "SLACK_API_TOKEN": "",
   "SLACK_BOT_TOKEN": "",
-  "DELAY": 7200000,
+  "DELAY_O": 7200000,
+  "DELAY": 30000,
   "INTERVAL": 10
 }

@@ -13,8 +13,8 @@ const config = require(`./config/token.${process.env.NODE_ENV || 'production'}.j
 const readFile = promisify(fs.readFile)
 const unlink = promisify(fs.unlink)
 
-const origem = 'G5L725YMC'
-const destino = 'C23E7AD7F'
+const origem = 'C23E7AD7F'
+const destino = 'G5L725YMC'
 const WEB_TOKEN = process.env.SLACK_API_TOKEN || config.SLACK_API_TOKEN
 const BOT_TOKEN = process.env.SLACK_BOT_TOKEN || config.SLACK_BOT_TOKEN
 const DELAY = process.env.DELAY || config.DELAY || 10000        // in milliseconds
