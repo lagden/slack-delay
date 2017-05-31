@@ -15,7 +15,8 @@
     "@slack/client": "3.10.0",
     "debug": "2.6.8",
     "got": "7.0.0",
-    "lagden-promisify": "3.0.0"
+    "lagden-promisify": "3.0.0",
+    "mkdirp": "0.5.1"
   },
   "engines": {
     "node": "7.9.0",
