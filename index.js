@@ -20,6 +20,9 @@ const BOT_TOKEN = process.env.SLACK_BOT_TOKEN || config.SLACK_BOT_TOKEN
 const DELAY = process.env.DELAY || config.DELAY || 10000        // in milliseconds
 const INTERVAL = process.env.INTERVAL || config.INTERVAL || 10  // in seconds
 
+debug.log(DELAY)
+debug.log(INTERVAL)
+
 let intervalID
 
 const rtm = new RtmClient(BOT_TOKEN, {
@@ -78,7 +81,7 @@ rtm.on(RTM_EVENTS.MESSAGE, message => {
 })
 
 rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, loop)
-rtm.on(CLIENT_EVENTS.RTM.ATTEMPTING_RECONNECT, clear)
+// rtm.on(CLIENT_EVENTS.RTM.ATTEMPTING_RECONNECT, clear)
 rtm.on(CLIENT_EVENTS.RTM.DISCONNECT, clear)
 
 rtm.start()
