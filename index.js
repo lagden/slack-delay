@@ -40,7 +40,7 @@ function clear() {
 }
 
 async function triggerMsg(file) {
-	const filepath = `./data/${file}`
+	const filepath = join(__dirname, 'data', `${file}`)
 	const data = await readFile(filepath)
 	const msg = JSON.parse(data)
 	if (msg && msg.text) {
@@ -61,7 +61,10 @@ function loop() {
 	debug.log('RTM_CONNECTION_OPENED')
 	intervalID = setInterval(() => {
 		read(DELAY)
-			.then(files => Promise.all(files.map(triggerMsg)))
+			.then(files => {
+				console.log(files)
+				return Promise.all(files.map(triggerMsg))
+			})
 			.then(r => {
 				if (r.length > 0) {
 					debug.log(r)
@@ -76,14 +79,16 @@ function loop() {
 rtm.on(RTM_EVENTS.MESSAGE, message => {
 	debug.log(message.channel, origem, message.type)
 	if (message.channel === origem && message.type === 'message') {
-		const ws = fs.createWriteStream(join(__dirname, 'data', `${Date.now()}.json`), {mode: 0o644})
+		const file = join(__dirname, 'data', `${Date.now()}.json`)
+		const ws = fs.createWriteStream(file)
 		ws.on('error', err => {
 			debug.error(err.message)
 		})
 		ws.on('finish', () => {
-			debug.log('ws ---> All writes are now complete.')
+			debug.log('ws ---> All writes are now complete.', file)
 		})
-		ws.end(JSON.stringify(message))
+		ws.write(JSON.stringify(message))
+		ws.end()
 	}
 })
 
