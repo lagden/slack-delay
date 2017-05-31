@@ -8,17 +8,17 @@ const debug = require('./lib/debug')
 const {read} = require('./lib/helpers')
 const server = require('./lib/server')
 
-const token = require(`./config/token.${process.env.NODE_ENV || 'dev'}.json`)
+const config = require(`./config/token.${process.env.NODE_ENV || 'dev'}.json`)
 
 const readFile = promisify(fs.readFile)
 const unlink = promisify(fs.unlink)
 
 const origem = 'G5L725YMC'
 const destino = 'C23E7AD7F'
-const WEB_TOKEN = process.env.SLACK_API_TOKEN || token.SLACK_API_TOKEN
-const BOT_TOKEN = process.env.SLACK_BOT_TOKEN || token.SLACK_BOT_TOKEN
-const DELAY = process.env.DELAY || 10000     // in milliseconds
-const INTERVAL = process.env.INTERVAL || 10  // in seconds
+const WEB_TOKEN = process.env.SLACK_API_TOKEN || config.SLACK_API_TOKEN
+const BOT_TOKEN = process.env.SLACK_BOT_TOKEN || config.SLACK_BOT_TOKEN
+const DELAY = process.env.DELAY || config.DELAY || 10000        // in milliseconds
+const INTERVAL = process.env.INTERVAL || config.INTERVAL || 10  // in seconds
 
 let intervalID
 
