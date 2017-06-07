@@ -77,7 +77,7 @@ function loop() {
 
 rtm.on(RTM_EVENTS.MESSAGE, message => {
 	// debug.log(message.channel, origem, message.type)
-	if (message.channel === origem && message.type === 'message') {
+	if (message.channel === origem && message.type === 'message' && /has\sjoined\sthe\schannel/.test(message.text) === false) {
 		const file = join(dataDir, `${Date.now()}.json`)
 		const ws = fs.createWriteStream(file)
 		ws.on('error', err => {
